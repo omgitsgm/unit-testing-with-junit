@@ -47,3 +47,48 @@ _O que é F.I.R.S.T.?_
 </pre>
 
 > Um conjunto de características esperadas em **testes unitários de qualidade**.
+
+## Padrão Triple A
+
+> O método de teste deve ser dividido em 3 partes: **_arrange_**, **_act_** and **_assert_**.
+
+Essa é uma forma de organizar os seus testes unitários.
+
+Exemplo:
+
+<pre>
+<code>
+    @Test
+    void saudar_withHoraBetween0and11_returnsBomDia() {
+        // Arrange
+        int horaBetween0and11 = 9;
+        String expectedSaudacao = "Bom dia";
+        
+        // Act
+        String actualSaudacao = SaudacaoUtil.saudar(horaBetween0and11);
+
+        // Assert
+        assertEquals(expectedSaudacao, actualSaudacao, "Saudação incorreta!");
+    }
+</code>
+</pre>
+
+Exemplo onde realizamos o Assert de uma Exception:
+> A estratégia aqui, é extrair a execução do método para um Executable, ao invés de passar a execução do método diretamente dentro do assertThrows().
+<pre>
+<code>
+    @Test
+    void saudar_withInvalidHora_throwsIllegalArgumentException() {
+
+        // Arrange
+        int invalidHora = -10;
+
+        // Act
+        Executable executable = () -> SaudacaoUtil.saudar(invalidHora);
+
+        // Assert
+        IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, executable);
+        assertEquals("Hora inválida", illegalArgumentException.getMessage());
+    }
+</code>
+</pre>
