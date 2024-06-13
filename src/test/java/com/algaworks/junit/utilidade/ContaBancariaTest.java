@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class ContaBancariaTest {
     
@@ -14,119 +15,169 @@ class ContaBancariaTest {
     @Test
     void contaBancaria_withSaldoEqualsToNull_throwsIllegalArgumentException() {
 
-        assertThrows(IllegalArgumentException.class, () -> new ContaBancaria(null), "Saldo inválido.");
+        BigDecimal invalidSaldo = null;
+        String expectedExceptionMessage = "O saldo não pode ser nulo.";
+
+        Executable executable = () -> new ContaBancaria(invalidSaldo);
+
+        IllegalArgumentException illegalArgumentException = 
+            assertThrows(IllegalArgumentException.class, executable, "Saldo inválido.");
+
+        assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
 
     }
 
     @Test
     void contaBancaria_withValidSaldo_createsNewContaBancaria() {
 
-        ContaBancaria contaBancaria = new ContaBancaria(BigDecimal.valueOf(100));
+        BigDecimal validSaldo = new BigDecimal(100);
+        BigDecimal expectedSaldo = validSaldo;
 
-        assertEquals(BigDecimal.valueOf(100), contaBancaria.getSaldo());
+        ContaBancaria contaBancaria = new ContaBancaria(validSaldo);
+
+        assertEquals(expectedSaldo, contaBancaria.getSaldo());
 
     }
 
     @Test
     void saque_withValorNull_throwsIllegalArgumentException() {
 
-        ContaBancaria contaBancaria = new ContaBancaria(BigDecimal.valueOf(100));
+        BigDecimal initialSaldo = new BigDecimal(100);
+        ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
+        BigDecimal valorSaqueNull = null;
+        String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
 
-        BigDecimal valor = null;
+        Executable executable = () -> contaBancaria.saque(valorSaqueNull);
 
-        assertThrows(IllegalArgumentException.class, () -> contaBancaria.saque(valor), "Valor inválido.");
+        IllegalArgumentException illegalArgumentException = 
+            assertThrows(IllegalArgumentException.class, executable, "Valor inválido.");
 
+        assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
     }
 
     @Test
     void saque_withValorLessThanZero_throwsIllegalArgumentException() {
 
-        ContaBancaria contaBancaria = new ContaBancaria(BigDecimal.valueOf(100));
+        BigDecimal initialSaldo = new BigDecimal(100);
+        ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
+        BigDecimal valorSaqueLessThanZero = new BigDecimal(-1);
+        String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
 
-        BigDecimal valor = new BigDecimal(-1);
+        Executable executable = () -> contaBancaria.saque(valorSaqueLessThanZero);
 
-        assertThrows(IllegalArgumentException.class, () -> contaBancaria.saque(valor));
+        IllegalArgumentException illegalArgumentException = 
+            assertThrows(IllegalArgumentException.class, executable);
+
+        assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
 
     }
 
     @Test
     void saque_withValorEqualsToZero_throwsIllegalArgumentException() {
 
-        ContaBancaria contaBancaria = new ContaBancaria(BigDecimal.valueOf(100));
+        BigDecimal initialSaldo = new BigDecimal(100);
+        ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
+        BigDecimal valorEqualsToZero = new BigDecimal(0);
+        String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
 
-        BigDecimal valor = new BigDecimal(0);
+        Executable executable = () -> contaBancaria.saque(valorEqualsToZero);
 
-        assertThrows(IllegalArgumentException.class, () -> contaBancaria.saque(valor));
+        IllegalArgumentException illegalArgumentException = 
+            assertThrows(IllegalArgumentException.class, executable);
+
+        assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
 
     }
 
     @Test
     void saque_withSaldoInsuficiente_throwsRuntimeException() {
 
-        ContaBancaria contaBancaria = new ContaBancaria(BigDecimal.valueOf(0));
+        BigDecimal initialSaldo = new BigDecimal(0);
+        ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
+        BigDecimal valorSaqueGreaterThanSaldo = new BigDecimal(50);
+        String expectedExceptionMessage = "Saldo insuficiente.";
 
-        BigDecimal valor = new BigDecimal(50);
+        Executable executable = () -> contaBancaria.saque(valorSaqueGreaterThanSaldo);
 
-        assertThrows(RuntimeException.class, () -> contaBancaria.saque(valor));
+        RuntimeException runtimeException = assertThrows(RuntimeException.class, executable);
+        assertEquals(expectedExceptionMessage, runtimeException.getMessage());
 
     }
 
     @Test
     void saque_withValidValor_changesContaBancariaSaldo() {
 
-        ContaBancaria contaBancaria = new ContaBancaria(BigDecimal.valueOf(100));
+        BigDecimal initialSaldo = new BigDecimal(100);
+        ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
+        BigDecimal validValor = new BigDecimal(50);
+        BigDecimal expectedSaldo = new BigDecimal(50);
+        
+        contaBancaria.saque(validValor);
 
-        BigDecimal valor = new BigDecimal(50);
-
-        contaBancaria.saque(valor);
-
-        assertEquals(new BigDecimal(50), contaBancaria.getSaldo());
+        assertEquals(expectedSaldo, contaBancaria.getSaldo());
 
     }
 
     @Test
     void deposito_withValorNull_throwsIllegalArgumentException() {
 
-        ContaBancaria contaBancaria = new ContaBancaria(BigDecimal.valueOf(100));
+        BigDecimal initialSaldo = new BigDecimal(100);
+        ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
+        BigDecimal valorNull = null;
+        String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
 
-        BigDecimal valor = null;
+        Executable executable = () -> contaBancaria.deposito(valorNull);
 
-        assertThrows(IllegalArgumentException.class, () -> contaBancaria.deposito(valor));
+        IllegalArgumentException illegalArgumentException = 
+            assertThrows(IllegalArgumentException.class, executable);
+
+        assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
 
     }
 
     @Test
     void deposito_withValorLessThanZero_throwsIllegalArgumentException() {
 
-        ContaBancaria contaBancaria = new ContaBancaria(BigDecimal.valueOf(100));
+        BigDecimal initialSaldo = new BigDecimal(100);
+        ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
+        BigDecimal valorLessThanZero = new BigDecimal(-1);
+        String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
 
-        BigDecimal valor = new BigDecimal(-1);
+        Executable executable = () -> contaBancaria.deposito(valorLessThanZero);
 
-        assertThrows(IllegalArgumentException.class, () -> contaBancaria.deposito(valor));
+        IllegalArgumentException illegalArgumentException = 
+            assertThrows(IllegalArgumentException.class, executable);
+
+        assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
 
     }
 
     @Test
     void deposito_withValorEqualsToZero_throwsIllegalArgumentException() {
 
-        ContaBancaria contaBancaria = new ContaBancaria(BigDecimal.valueOf(100));
+        BigDecimal initialSaldo = new BigDecimal(100);
+        ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
+        BigDecimal valorEqualsToZero = new BigDecimal(0);
+        String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
 
-        BigDecimal valor = new BigDecimal(0);
+        Executable executable = () -> contaBancaria.deposito(valorEqualsToZero);
 
-        assertThrows(IllegalArgumentException.class, () -> contaBancaria.deposito(valor));
+        IllegalArgumentException illegalArgumentException =
+            assertThrows(IllegalArgumentException.class, executable);
+
+        assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
 
     }
 
     @Test
     void deposito_withValidValor_changesContaBancariaSaldo() {
 
-        ContaBancaria contaBancaria = new ContaBancaria(BigDecimal.valueOf(100));
-
-        BigDecimal valor = new BigDecimal(50);
-
+        BigDecimal initialSaldo = new BigDecimal(100);
+        ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
+        BigDecimal validValor = new BigDecimal(50);
         BigDecimal expectedSaldo = new BigDecimal(150);
 
-        contaBancaria.deposito(valor);
+        contaBancaria.deposito(validValor);
 
         assertEquals(expectedSaldo, contaBancaria.getSaldo());
 
@@ -135,8 +186,9 @@ class ContaBancariaTest {
     @Test
     void saldo_returnsContaBancariaSaldo() {
 
+        BigDecimal initialSaldo = new BigDecimal(100);
+        ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
         BigDecimal expectedSaldo = new BigDecimal(100);
-        ContaBancaria contaBancaria = new ContaBancaria(expectedSaldo);
 
         BigDecimal saldo = contaBancaria.saldo();
 
