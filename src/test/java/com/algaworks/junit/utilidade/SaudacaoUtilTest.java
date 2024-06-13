@@ -15,6 +15,18 @@ class SaudacaoUtilTest {
     }
 
     @Test
+    void saudar_withHoraBetween12and17_returnsBoaTarde() {
+        String saudacao = SaudacaoUtil.saudar(15);
+        assertEquals("Boa tarde", saudacao, "Saudação incorreta!");
+    }
+
+    @Test
+    void saudar_withHoraBetween18and23_returnsBoaNoite() {
+        String saudacao = SaudacaoUtil.saudar(21);
+        assertEquals("Boa noite", saudacao);
+    }
+
+    @Test
     void saudar_withInvalidHora_throwsIllegalArgumentException() {
         IllegalArgumentException illegalArgumentException = 
             assertThrows(IllegalArgumentException.class, () -> SaudacaoUtil.saudar(-10));
