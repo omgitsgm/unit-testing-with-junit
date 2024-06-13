@@ -11,11 +11,12 @@ public class ContaBancaria {
         if (saldo == null)
             throw new IllegalArgumentException("O saldo não pode ser nulo.");
         //TODO 2 - pode ser zero ou negativo
+        this.saldo = saldo;
     }
 
     public void saque(BigDecimal valor) {
         //TODO 1 - validar valor: não pode ser nulo, zero ou menor que zero, caso seja, deve lançar uma IllegalArgumentException
-        if (valor == null || valor.compareTo(BigDecimal.ZERO) > 0)
+        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("O saldo não pode ser nulo, zero ou menor que zero.");
         
         //TODO 2 - Deve subtrair o valor do saldo
@@ -38,4 +39,9 @@ public class ContaBancaria {
         //TODO 1 - retornar saldo
         return null;
     }
+
+    public BigDecimal getSaldo() {
+        return this.saldo;
+    }
+
 }
