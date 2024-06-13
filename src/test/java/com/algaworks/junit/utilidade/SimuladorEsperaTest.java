@@ -6,11 +6,13 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 
 class SimuladorEsperaTest {
 
     @Test
     @Disabled("Não é mais aplicável.")
+    // @EnabledIfEnvironmentVariable(named = "ENV", matches = "DEV")
     void esperar_withoutTimeout() {
 
         /*
