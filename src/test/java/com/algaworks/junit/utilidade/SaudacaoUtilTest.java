@@ -5,50 +5,90 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class SaudacaoUtilTest {
     
     @Test
     void saudar_withHoraBetween0and11_returnsBomDia() {
-        String saudacao = SaudacaoUtil.saudar(9);
-        assertEquals("Bom dia", saudacao, "Saudação incorreta!");
+        // Arrange
+        int horaBetween0and11 = 9;
+        String expectedSaudacao = "Bom dia";
+        
+        // Act
+        String actualSaudacao = SaudacaoUtil.saudar(horaBetween0and11);
+
+        // Assert
+        assertEquals(expectedSaudacao, actualSaudacao, "Saudação incorreta!");
     }
 
     @Test
     void saudar_withHora5_returnsBomDia() {
-        String saudacao = SaudacaoUtil.saudar(5);
-        assertEquals("Bom dia", saudacao, "Saudação incorreta!");
+
+        int hora5 = 5;
+        String expectedSaudacao = "Bom dia";
+
+        String saudacao = SaudacaoUtil.saudar(hora5);
+
+        assertEquals(expectedSaudacao, saudacao, "Saudação incorreta!");
     }
 
     @Test
     void saudar_withHoraBetween12and17_returnsBoaTarde() {
-        String saudacao = SaudacaoUtil.saudar(15);
-        assertEquals("Boa tarde", saudacao, "Saudação incorreta!");
+
+        int horaBetween12and17 = 15;
+        String expectedSaudacao = "Boa tarde";
+
+        String saudacao = SaudacaoUtil.saudar(horaBetween12and17);
+
+        assertEquals(expectedSaudacao, saudacao, "Saudação incorreta!");
     }
 
     @Test
     void saudar_withHoraBetween18and23_returnsBoaNoite() {
-        String saudacao = SaudacaoUtil.saudar(21);
-        assertEquals("Boa noite", saudacao);
+
+        int horaBetween18and23 = 21;
+        String expectedSaudacao = "Boa noite";
+
+        String saudacao = SaudacaoUtil.saudar(horaBetween18and23);
+
+        assertEquals(expectedSaudacao, saudacao, "Saudação incorreta!");
     }
 
     @Test
     void saudar_withHora4_returnsBoaNoite() {
-        String saudacao = SaudacaoUtil.saudar(4);
-        assertEquals("Boa noite", saudacao);
+
+        int hora4 = 4;
+        String expectedSaudacao = "Boa noite";
+
+        String saudacao = SaudacaoUtil.saudar(hora4);
+
+        assertEquals(expectedSaudacao, saudacao, "Saudação incorreta!");
     }
 
     @Test
     void saudar_withInvalidHora_throwsIllegalArgumentException() {
-        IllegalArgumentException illegalArgumentException = 
-            assertThrows(IllegalArgumentException.class, () -> SaudacaoUtil.saudar(-10));
 
-        assertEquals("Hora inválida", illegalArgumentException.getMessage());
+        // Arrange
+        int invalidHora = -10;
+        String expectedExceptionMessage = "Hora inválida";
+
+        // Act
+        Executable executable = () -> SaudacaoUtil.saudar(invalidHora);
+
+        // Assert
+        IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, executable);
+        assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
     }
 
     @Test
     void saudar_withValidHora_doesNotThrowException() {
-        assertDoesNotThrow(() -> SaudacaoUtil.saudar(0));
+
+        int validHora = 0;
+
+        Executable executable = () -> SaudacaoUtil.saudar(validHora);
+
+        assertDoesNotThrow(executable);
     }
 
 }
