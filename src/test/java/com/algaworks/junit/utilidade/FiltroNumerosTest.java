@@ -25,5 +25,16 @@ class FiltroNumerosTest {
 
         Assertions.assertIterableEquals(expectedEvenNumbers, actualNumbers);
     }
+
+    @Test
+    @DisplayName("Deve retornar apenas números ímpares.")
+    void givenAListOfNumbers_whenFilterByOddNumbers_returnOnlyOddNumbers() {
+        List<Integer> numbers = Arrays.asList(1,2,3,4);
+        List<Integer> expectedOddNumbers = Arrays.asList(1, 3);
+
+        List<Integer> actualNumbers = FiltroNumeros.numerosImpares(numbers);
+
+        Assertions.assertIterableEquals(expectedOddNumbers, actualNumbers);
+    }
     
 }
