@@ -25,6 +25,8 @@ Além disso, devido a sua complexidade, espera-se que os testes E2E representem 
 
 **🐺 Unit**: tem como objetivo testar um componente único de um sistema, como uma classe, por exemplo. Não deve receber influência de outros componentes do sistema. Deve ser feito durante o desenvolvimento. Os testes unitários devem ser concisos e com objetivos bem definidos.
 
+---
+
 ## Importância dos Testes Unitários
 
 * Testes manuais demoram e são chatos;
@@ -32,6 +34,8 @@ Além disso, devido a sua complexidade, espera-se que os testes E2E representem 
 * Evitar que bugs ocorram ao alterar o código;
 * Documenta as funcionalidades do sistema, assim como as regras;
 * Os testes nos dão mais segurança na hora de refatorar;
+
+---
 
 ## O princípio F.I.R.S.T.
 
@@ -47,6 +51,8 @@ _O que é F.I.R.S.T.?_
 </pre>
 
 > Um conjunto de características esperadas em **testes unitários de qualidade**.
+
+---
 
 ## Padrão Triple A
 
@@ -89,6 +95,55 @@ Exemplo onde realizamos o Assert de uma Exception:
         // Assert
         IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, executable);
         assertEquals("Hora inválida", illegalArgumentException.getMessage());
+    }
+</code>
+</pre>
+
+---
+
+## Nomenclatura BDD para testes unitários
+
+> Nomenclatura para métodos de testes unitários baseados no BDD (_Behavior Driven Development_)
+
+Estrutura base:
+
+<pre>
+<code>
+    @Test
+    given_when_then(){
+        // your code here...
+    }
+</code>
+</pre>
+
+Exemplo - **sem nomenclatura BDD**:
+<pre>
+<code>
+    @Test
+    @DisplayName("Deve retornar apenas números pares quando filtrar por números pares.")
+    void numerosPares_withArrayOfNumbers_returnsOnlyEvenNumbers() {
+        List<Integer> numbers = Arrays.asList(1,2,3,4);
+        List<Integer> expectedEvenNumbers = Arrays.asList(2, 4);
+
+        List<Integer> actualNumbers = FiltroNumeros.numerosPares(numbers);
+
+        Assertions.assertIterableEquals(expectedEvenNumbers, actualNumbers);
+    }
+</code>
+</pre>
+
+Exemplo - **com nomenclatura BDD**:
+<pre>
+<code>
+    @Test
+    @DisplayName("Deve retornar apenas números pares quando filtrar por números pares.")
+    void givenAListOfNumbers_whenFilterByEvenNumbers_thenReturnOnlyEvenNumbers() {
+        List<Integer> numbers = Arrays.asList(1,2,3,4);
+        List<Integer> expectedEvenNumbers = Arrays.asList(2, 4);
+
+        List<Integer> actualNumbers = FiltroNumeros.numerosPares(numbers);
+
+        Assertions.assertIterableEquals(expectedEvenNumbers, actualNumbers);
     }
 </code>
 </pre>
