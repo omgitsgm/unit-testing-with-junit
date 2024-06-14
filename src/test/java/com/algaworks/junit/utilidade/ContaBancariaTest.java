@@ -5,13 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+@DisplayName("Testes no utilitário de conta bancária.")
 class ContaBancariaTest {
     
     
     @Test
+    @DisplayName("Deve lançar IllegalArgumentException ao criar conta com saldo null.")
     void contaBancaria_withSaldoEqualsToNull_throwsIllegalArgumentException() {
 
         BigDecimal invalidSaldo = null;
@@ -27,6 +30,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve criar uma nova conta bancária.")
     void contaBancaria_withValidSaldo_createsNewContaBancaria() {
 
         BigDecimal validSaldo = new BigDecimal(100);
@@ -39,6 +43,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando sacar um valor null.")
     void saque_withValorNull_throwsIllegalArgumentException() {
 
         BigDecimal initialSaldo = new BigDecimal(100);
@@ -55,6 +60,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando sacar um valor menor do que zero.")
     void saque_withValorLessThanZero_throwsIllegalArgumentException() {
 
         BigDecimal initialSaldo = new BigDecimal(100);
@@ -72,6 +78,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando sacar um valor igual a zero.")
     void saque_withValorEqualsToZero_throwsIllegalArgumentException() {
 
         BigDecimal initialSaldo = new BigDecimal(100);
@@ -89,6 +96,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve lançar RuntimeException quando o saldo não for suficiente para efetuar um saque.")
     void saque_withSaldoInsuficiente_throwsRuntimeException() {
 
         BigDecimal initialSaldo = new BigDecimal(0);
@@ -104,6 +112,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve subtrair um valor do saldo da conta ao realizar um saque.")
     void saque_withValidValor_changesContaBancariaSaldo() {
 
         BigDecimal initialSaldo = new BigDecimal(100);
@@ -118,6 +127,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando depositar um valor null.")
     void deposito_withValorNull_throwsIllegalArgumentException() {
 
         BigDecimal initialSaldo = new BigDecimal(100);
@@ -135,6 +145,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando depositar um valor menor do que zero.")
     void deposito_withValorLessThanZero_throwsIllegalArgumentException() {
 
         BigDecimal initialSaldo = new BigDecimal(100);
@@ -152,6 +163,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando depositar um valor igual a zero.")
     void deposito_withValorEqualsToZero_throwsIllegalArgumentException() {
 
         BigDecimal initialSaldo = new BigDecimal(100);
@@ -169,6 +181,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve adicionar um valor ao saldo da conta ao realizar um depósito.")
     void deposito_withValidValor_changesContaBancariaSaldo() {
 
         BigDecimal initialSaldo = new BigDecimal(100);
@@ -183,6 +196,7 @@ class ContaBancariaTest {
     }
 
     @Test
+    @DisplayName("Deve retornar o saldo da conta bancária.")
     void saldo_returnsContaBancariaSaldo() {
 
         BigDecimal initialSaldo = new BigDecimal(100);

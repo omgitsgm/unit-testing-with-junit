@@ -5,12 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
 import java.time.Duration;
 
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
+@DisplayName("Testes no utilitário de simulador de espera.")
 class SimuladorEsperaTest {
 
     @Test
     @Disabled("Não é mais aplicável.")
+    @DisplayName("Deve executar o método em até 1s.")
     // @EnabledIfEnvironmentVariable(named = "ENV", matches = "DEV")
     void esperar_withoutTimeout() {
 
@@ -45,8 +49,11 @@ class SimuladorEsperaTest {
          * Agora testando o caso de sucesso...
          */
 
-        assertTimeoutPreemptively(Duration.ofSeconds(1),
-            () -> SimuladorEspera.esperar(Duration.ofMillis(10)));
+        Duration expectedDuration = Duration.ofSeconds(1);
+
+        Executable executable = () -> SimuladorEspera.esperar(Duration.ofMillis(10));
+
+        assertTimeoutPreemptively(expectedDuration, executable);
     }
 
 }
