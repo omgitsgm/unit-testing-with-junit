@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Testes no utilitário de filtro de números.")
+// @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class FiltroNumerosTest {
 
     @Test
