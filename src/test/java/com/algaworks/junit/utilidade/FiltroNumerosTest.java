@@ -11,9 +11,13 @@ import org.junit.jupiter.api.Test;
 // @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class FiltroNumerosTest {
 
+
+    // Nomenclatura BDD para testes
+    // Given, When, Then
+    // givenAListOfNumbers_whenFilterByEvenNumbers_returnOnlyEvenNumbers
     @Test
     @DisplayName("Deve retornar apenas números pares.")
-    void numerosPares_withArrayOfNumbers_returnsOnlyEvenNumbers() {
+    void givenAListOfNumbers_whenFilterByEvenNumbers_returnOnlyEvenNumbers() {
         List<Integer> numbers = Arrays.asList(1,2,3,4);
         List<Integer> expectedEvenNumbers = Arrays.asList(2, 4);
 
