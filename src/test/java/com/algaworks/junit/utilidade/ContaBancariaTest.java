@@ -18,10 +18,10 @@ class ContaBancariaTest {
     static String saqueCannotBeNullZeroOrLessThanZeroMessage;
     static String saldoInsuficienteMessage;
     static String depositoCannotBeNullZeroOrLessThanZeroMessage;
-
+    
     @BeforeAll
     static void beforeAll() {
-
+        
         saldoCannotBeNullMessage = "O saldo não pode ser nulo.";
         saqueCannotBeNullZeroOrLessThanZeroMessage = "O valor não pode ser nulo, zero ou menor que zero.";
         saldoInsuficienteMessage = "Saldo insuficiente.";
@@ -45,6 +45,7 @@ class ContaBancariaTest {
         assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
 
     }
+
 
     @Test
     @DisplayName("Deve criar uma nova conta bancária.")
@@ -80,6 +81,7 @@ class ContaBancariaTest {
             assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
         }
     
+
         @Test
         @DisplayName("Deve lançar IllegalArgumentException quando sacar um valor menor do que zero.")
         void saque_withValorLessThanZero_throwsIllegalArgumentException() {
@@ -98,6 +100,7 @@ class ContaBancariaTest {
     
         }
     
+
         @Test
         @DisplayName("Deve lançar IllegalArgumentException quando sacar um valor igual a zero.")
         void saque_withValorEqualsToZero_throwsIllegalArgumentException() {
@@ -116,6 +119,7 @@ class ContaBancariaTest {
     
         }
     
+
         @Test
         @DisplayName("Deve lançar RuntimeException quando o saldo não for suficiente para efetuar um saque.")
         void saque_withSaldoInsuficiente_throwsRuntimeException() {
@@ -132,6 +136,7 @@ class ContaBancariaTest {
     
         }
     
+
         @Test
         @DisplayName("Deve subtrair um valor do saldo da conta ao realizar um saque.")
         void saque_withValidValor_changesContaBancariaSaldo() {
@@ -146,6 +151,7 @@ class ContaBancariaTest {
             assertEquals(expectedSaldo, contaBancaria.getSaldo());
     
         }
+
 
     }
 
@@ -172,6 +178,7 @@ class ContaBancariaTest {
     
         }
     
+
         @Test
         @DisplayName("Deve lançar IllegalArgumentException quando depositar um valor menor do que zero.")
         void deposito_withValorLessThanZero_throwsIllegalArgumentException() {
@@ -190,6 +197,7 @@ class ContaBancariaTest {
     
         }
     
+
         @Test
         @DisplayName("Deve lançar IllegalArgumentException quando depositar um valor igual a zero.")
         void deposito_withValorEqualsToZero_throwsIllegalArgumentException() {
@@ -208,6 +216,7 @@ class ContaBancariaTest {
     
         }
     
+
         @Test
         @DisplayName("Deve adicionar um valor ao saldo da conta ao realizar um depósito.")
         void deposito_withValidValor_changesContaBancariaSaldo() {
@@ -222,6 +231,7 @@ class ContaBancariaTest {
             assertEquals(expectedSaldo, contaBancaria.getSaldo());
     
         }
+
 
     }
 
@@ -243,6 +253,7 @@ class ContaBancariaTest {
             assertEquals(expectedSaldo, saldo);
     
         }
+        
 
     }
 
