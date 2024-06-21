@@ -147,3 +147,111 @@ Exemplo - **com nomenclatura BDD**:
     }
 </code>
 </pre>
+
+---
+
+## Devemos ter apenas 1 asserção por teste?
+
+> Essa é uma discussão interessante.
+
+Por vezes, a resposta para essa pergunta irá depender muito do que estamos testando. No entanto, de uma maneira geral, por questões de organização,
+legibilidade e clareza, sempre que possível **opte por realizar apenas 1 asserção por teste**.
+
+_Observe o exemplo abaixo:_
+
+<pre>
+<code>
+    @Test
+    void givenAPost_whenCalcular_thenReturnGanhos() {
+
+        BigDecimal expectedGanhos = new BigDecimal(45);
+        int expectedQuantidadePalavras = 7;
+
+        Ganhos actualGanhos = calculadoraGanhos.calcular(post);
+
+        assertEquals(expectedGanhos, actualGanhos.getTotalGanho());
+        assertEquals(expectedQuantidadePalavras, actualGanhos.getQuantidadePalavras());
+        assertEquals(editor.getValorPagoPorPalavra(), actualGanhos.getValorPagoPorPalavra());
+
+    }
+</code>
+</pre>
+
+No código acima estamos testando o método calcular de CalculadoraGanhos. Quando esse método é executado, nós esperamos que, em um caso de sucesso, ele nos retorne:
+* O total de ganhos esperados por um post;
+* A quantidade de palavras utilizadas em um post;
+* O valor pago por palavra ao editor do post;
+
+Neste caso não é _tão_ difícil entender o que está sendo testado aqui apenas lendo o código, mas uma coisa é certa: podemos tornar tudo mais simples e objetivo. 
+**_Então por quê não fazer isso?_**
+
+_Observe o exemplo abaixo:_
+
+<pre>
+<code>
+
+    @Test
+    void givenAPostAndAnAutorPremium_whenCalcularGanhos_thenReturnValorComBonus() {
+
+        BigDecimal expectedGanhos = new BigDecimal(45);
+        
+        Ganhos actualGanhos = calculadoraGanhos.calcular(post);
+
+        assertEquals(expectedGanhos, actualGanhos.getTotalGanho());
+
+    }
+
+    @Test
+    void givenAPostAndAutor_whenCalcularGanhos_thenReturnQuantidadePalavrasDoPost() {
+
+        int expectedQuantidadePalavras = 7;
+        
+        Ganhos actualGanhos = calculadoraGanhos.calcular(post);
+
+        assertEquals(expectedQuantidadePalavras, actualGanhos.getQuantidadePalavras());
+
+    }
+
+    @Test
+    void givenAPostAndAutor_whenCalcularGanhos_thenReturnValorPagoPorPalavraDoAutor() {
+
+        Ganhos actualGanhos = calculadoraGanhos.calcular(post);
+
+        assertEquals(autor.getValorPagoPorPalavra(), actualGanhos.getValorPagoPorPalavra());
+
+    }
+
+</code>
+</pre>
+
+A partir de uma única função de teste, nós fomos capazes de gerar três outros testes que são **mais claros, objetivos, legíveis e que _documentam muito melhor_ o comportamento da função calcular.**
+
+
+### Quando eu não uso uma única asserção por teste?
+
+Embora eu considere que seja muito melhor usar 1 asserção por teste, eu não acho que esso seja uma regra absoluta na escrita de testes unitários.
+
+_Observe o exemplo abaixo:_
+
+<pre>
+<code>
+    @Test
+    @DisplayName("Deve lançar IllegalArgumentException ao criar conta com saldo null.")
+    void contaBancaria_withSaldoEqualsToNull_throwsIllegalArgumentException() {
+
+        BigDecimal invalidSaldo = null;
+        String expectedExceptionMessage = saldoCannotBeNullMessage;
+
+        Executable executable = () -> new ContaBancaria(invalidSaldo);
+
+        IllegalArgumentException illegalArgumentException = 
+            assertThrows(IllegalArgumentException.class, executable, "Saldo inválido.");
+
+        assertEquals(expectedExceptionMessage, illegalArgumentException.getMessage());
+
+    }
+</code>
+</pre>
+
+Aqui, podemos ver que eu uso dois tipos de asserções: ``assertThrows`` e ``assertEquals``.  
+Nesse tipo de situação, é **válido** usar duas asserções, porque além de checar se o método construtor de ContaBancaria está jogando uma exceção quando recebe um saldo inválido como argumento, eu estou checando se a mensagem dessa exceção está de acordo com a mensagem esperada. Eu considero que, aqui, temos duas asserções **complementares entre si** e ambas trabalham em conjunto para testar uma única coisa, que é o lançamento de uma exceção com a mensagem correta. Sem a exceção não existe a mensagem de uma exceção e é por isso que faz sentido as asserções estarem juntas.
