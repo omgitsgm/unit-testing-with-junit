@@ -23,8 +23,8 @@ public class CarrinhoCompra {
 	}
 
 	public List<ItemCarrinhoCompra> getItens() {
-		//TODO deve retornar uma nova lista para que a antiga não seja alterada
-		return null;
+		//deve retornar uma nova lista para que a antiga não seja alterada
+		return List.copyOf(itens);
 	}
 
 	public Cliente getCliente() {
