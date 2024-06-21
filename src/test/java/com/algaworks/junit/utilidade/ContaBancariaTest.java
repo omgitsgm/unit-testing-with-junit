@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,21 @@ import org.junit.jupiter.api.function.Executable;
 
 @DisplayName("Testes no utilitário de conta bancária.")
 class ContaBancariaTest {
+
+    static String saldoCannotBeNullMessage;
+    static String saqueCannotBeNullZeroOrLessThanZeroMessage;
+    static String saldoInsuficienteMessage;
+    static String depositoCannotBeNullZeroOrLessThanZeroMessage;
+
+    @BeforeAll
+    static void beforeAll() {
+
+        saldoCannotBeNullMessage = "O saldo não pode ser nulo.";
+        saqueCannotBeNullZeroOrLessThanZeroMessage = "O valor não pode ser nulo, zero ou menor que zero.";
+        saldoInsuficienteMessage = "Saldo insuficiente.";
+        depositoCannotBeNullZeroOrLessThanZeroMessage = "O valor não pode ser nulo, zero ou menor que zero.";
+
+    }
     
     
     @Test
@@ -19,7 +35,7 @@ class ContaBancariaTest {
     void contaBancaria_withSaldoEqualsToNull_throwsIllegalArgumentException() {
 
         BigDecimal invalidSaldo = null;
-        String expectedExceptionMessage = "O saldo não pode ser nulo.";
+        String expectedExceptionMessage = saldoCannotBeNullMessage;
 
         Executable executable = () -> new ContaBancaria(invalidSaldo);
 
@@ -54,7 +70,7 @@ class ContaBancariaTest {
             BigDecimal initialSaldo = new BigDecimal(100);
             ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
             BigDecimal valorSaqueNull = null;
-            String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
+            String expectedExceptionMessage = saqueCannotBeNullZeroOrLessThanZeroMessage;
     
             Executable executable = () -> contaBancaria.saque(valorSaqueNull);
     
@@ -71,7 +87,7 @@ class ContaBancariaTest {
             BigDecimal initialSaldo = new BigDecimal(100);
             ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
             BigDecimal valorSaqueLessThanZero = new BigDecimal(-1);
-            String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
+            String expectedExceptionMessage = saqueCannotBeNullZeroOrLessThanZeroMessage;
     
             Executable executable = () -> contaBancaria.saque(valorSaqueLessThanZero);
     
@@ -89,7 +105,7 @@ class ContaBancariaTest {
             BigDecimal initialSaldo = new BigDecimal(100);
             ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
             BigDecimal valorEqualsToZero = new BigDecimal(0);
-            String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
+            String expectedExceptionMessage = saqueCannotBeNullZeroOrLessThanZeroMessage;
     
             Executable executable = () -> contaBancaria.saque(valorEqualsToZero);
     
@@ -107,7 +123,7 @@ class ContaBancariaTest {
             BigDecimal initialSaldo = new BigDecimal(0);
             ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
             BigDecimal valorSaqueGreaterThanSaldo = new BigDecimal(50);
-            String expectedExceptionMessage = "Saldo insuficiente.";
+            String expectedExceptionMessage = saldoInsuficienteMessage;
     
             Executable executable = () -> contaBancaria.saque(valorSaqueGreaterThanSaldo);
     
@@ -145,7 +161,7 @@ class ContaBancariaTest {
             BigDecimal initialSaldo = new BigDecimal(100);
             ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
             BigDecimal valorNull = null;
-            String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
+            String expectedExceptionMessage = depositoCannotBeNullZeroOrLessThanZeroMessage;
     
             Executable executable = () -> contaBancaria.deposito(valorNull);
     
@@ -163,7 +179,7 @@ class ContaBancariaTest {
             BigDecimal initialSaldo = new BigDecimal(100);
             ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
             BigDecimal valorLessThanZero = new BigDecimal(-1);
-            String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
+            String expectedExceptionMessage = depositoCannotBeNullZeroOrLessThanZeroMessage;
     
             Executable executable = () -> contaBancaria.deposito(valorLessThanZero);
     
@@ -181,7 +197,7 @@ class ContaBancariaTest {
             BigDecimal initialSaldo = new BigDecimal(100);
             ContaBancaria contaBancaria = new ContaBancaria(initialSaldo);
             BigDecimal valorEqualsToZero = new BigDecimal(0);
-            String expectedExceptionMessage = "O valor não pode ser nulo, zero ou menor que zero.";
+            String expectedExceptionMessage = depositoCannotBeNullZeroOrLessThanZeroMessage;
     
             Executable executable = () -> contaBancaria.deposito(valorEqualsToZero);
     
