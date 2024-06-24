@@ -179,6 +179,119 @@ class CarrinhoCompraTest {
 
         }
 
+        @DisplayName("quando remover produto do carrinho.")
+        @Nested
+        class whenRemoverProduto {
+            
+            @DisplayName("com produto existente.")
+            @Nested
+            class withExistingProduto {
+
+                @DisplayName("então remova o item do carrinho.")
+                @Test
+                void thenRemoveItemFromItensList() {
+
+                    List<ItemCarrinhoCompra> expectedItens = List.of();
+
+                    carrinho.removerProduto(produto);
+
+                    assertEquals(expectedItens, carrinho.getItens());
+
+                }
+
+                @DisplayName("então diminua o tamanho da lista de itens.")
+                @Test
+                void thenDecreaseListOfItensSize() {
+
+                    int expectedSize = 0;
+
+                    carrinho.removerProduto(produto);
+
+                    assertEquals(expectedSize, carrinho.getItens().size());
+
+                }
+
+            }
+
+            @DisplayName("com produto inexistente.")
+            @Nested
+            class withUnexistingProduto {
+
+                static Produto produtoInexistente;
+
+                static String produtoInexistenteMessage = "O produto não existe.";
+
+                @BeforeEach
+                void beforeEach() {
+
+                    produtoInexistente = new Produto(2L, "Xbox Series X", "O console mais poderoso da Microsoft", new BigDecimal(4000));
+
+                }
+
+                @DisplayName("então lance uma RuntimeException.")
+                @Test
+                void thenThrowRuntimeException() {
+
+                    Executable executable = () -> carrinho.removerProduto(produtoInexistente);
+
+                    RuntimeException exception = assertThrows(RuntimeException.class, executable);
+
+                    assertEquals(produtoInexistenteMessage, exception.getMessage());
+
+                }
+
+                @DisplayName("então não diminua o tamanho da lista de itens.")
+                @Test
+                void thenDoNotDecreaseListOfItensSize() {
+
+                    int expectedSize = 1;
+
+                    try {
+                        carrinho.removerProduto(produtoInexistente);
+                    } catch (RuntimeException exception) {}
+
+                    assertEquals(expectedSize, carrinho.getItens().size());
+
+                }
+
+            }
+
+
+            @DisplayName("com produto null.")
+            @Nested
+            class withProdutoNull {
+
+                static String produtoNaoPodeSerNullMessage = "Produto não pode ser null.";
+
+                @DisplayName("então lance uma NullPointerException.")
+                @Test
+                void thenThrowNullPointerException() {
+
+                    Executable executable = () -> carrinho.removerProduto(null);
+
+                    NullPointerException exception = assertThrows(NullPointerException.class, executable);
+
+                    assertEquals(produtoNaoPodeSerNullMessage, exception.getMessage());
+
+                }
+
+                @DisplayName("então não diminua o tamanho da lista de itens.")
+                @Test
+                void thenDoNotDecreaseListOfItensSize() {
+
+                    int expectedSize = 1;
+
+                    try {
+                        carrinho.removerProduto(null);
+                    } catch (RuntimeException exception) {}
+
+                    assertEquals(expectedSize, carrinho.getItens().size());
+
+                }
+
+            }
+        }
+
     }
 
     
