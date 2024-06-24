@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class CarrinhoCompra {
 
@@ -23,7 +22,7 @@ public class CarrinhoCompra {
 	}
 
 	public List<ItemCarrinhoCompra> getItens() {
-		//deve retornar uma nova lista para que a antiga não seja alterada
+		// Deve retornar uma nova lista para que a antiga não seja alterada
 		return List.copyOf(itens);
 	}
 
@@ -31,10 +30,27 @@ public class CarrinhoCompra {
 		return cliente;
 	}
 
-	public void adicionarProduto(Produto produto, int quantidade) {
-		//TODO parâmetros não podem ser nulos, deve retornar uma exception
-		//TODO quantidade não pode ser menor que 1
-		//TODO deve incrementar a quantidade caso o produto já exista
+	public void adicionarProduto(Produto produto, Integer quantidade) {
+
+		// Parâmetros não podem ser nulos, deve retornar uma exception
+		if(produto == null || quantidade == null)
+			throw new NullPointerException("Parâmetros não podem ser null."); 
+		
+		// Quantidade não pode ser menor que 1
+		if(quantidade < 1)
+			throw new IllegalArgumentException("Quantidade não pode ser menor do que 1.");
+
+		for(int i = 0; i < itens.size(); i++) {
+			ItemCarrinhoCompra item = itens.get(i);
+			
+			// Deve incrementar a quantidade caso o produto já exista
+			if(item.getProduto().equals(produto))
+				item.adicionarQuantidade(1);
+			else if(i == itens.size() - 1)
+				itens.add(new ItemCarrinhoCompra(produto, quantidade));
+
+		}
+
 	}
 
 	public void removerProduto(Produto produto) {
