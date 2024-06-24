@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class CarrinhoCompra {
 
@@ -54,9 +56,16 @@ public class CarrinhoCompra {
 	}
 
 	public void removerProduto(Produto produto) {
-		//TODO parâmetro não pode ser nulo, deve retornar uma exception
-		//TODO caso o produto não exista, deve retornar uma exception
-		//TODO deve remover o produto independente da quantidade
+		// Parâmetro não pode ser nulo, deve retornar uma exception
+		if(produto == null)
+			throw new NullPointerException("Produto não pode ser null.");
+
+		// Caso o produto não exista, deve retornar uma exception
+		ItemCarrinhoCompra item = findItemByProduto(produto)
+									.orElseThrow(() -> new RuntimeException("O produto não existe."));
+		
+		// Deve remover o produto independente da quantidade
+		itens.remove(item);
 	}
 
 	public void aumentarQuantidadeProduto(Produto produto) {
@@ -98,4 +107,11 @@ public class CarrinhoCompra {
 	public int hashCode() {
 		return Objects.hash(itens, cliente);
 	}
+
+	private Optional<ItemCarrinhoCompra> findItemByProduto(Produto produto) {
+
+		return itens.stream().filter(item -> item.getProduto().equals(produto)).findFirst();
+
+	}
+
 }
